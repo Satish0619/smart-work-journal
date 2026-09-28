@@ -1,8 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import { WorkItemType } from '@/types/workLog';
+import { WorkItemType, WorkItemCategory } from '@/types/workLog';
 
 interface IWorkItem {
   description: string;
+  category: WorkItemCategory;
   type: WorkItemType;
   completed: boolean;
 }
@@ -19,9 +20,28 @@ export interface IWorkLog extends Document {
 const WorkItemSchema = new Schema<IWorkItem>(
   {
     description: { type: String, required: true },
+    category: {
+      type: String,
+      enum: ['work', 'personal'],
+      default: 'work',
+      required: true,
+    },
     type: {
       type: String,
-      enum: ['development', 'defect', 'meeting', 'research', 'learning', 'other'],
+      enum: [
+        'development',
+        'defect',
+        'meeting',
+        'research',
+        'learning',
+        'other',
+        'health',
+        'errand',
+        'family',
+        'finance',
+        'personal-learning',
+        'personal-other',
+      ],
       required: true,
     },
     completed: { type: Boolean, default: false },

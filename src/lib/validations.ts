@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+export const WorkItemCategorySchema = z.enum(['work', 'personal']);
+
 export const WorkItemTypeSchema = z.enum([
   'development',
   'defect',
@@ -7,10 +9,17 @@ export const WorkItemTypeSchema = z.enum([
   'research',
   'learning',
   'other',
+  'health',
+  'errand',
+  'family',
+  'finance',
+  'personal-learning',
+  'personal-other',
 ]);
 
 export const WorkItemSchema = z.object({
   description: z.string().min(1, 'Description is required'),
+  category: WorkItemCategorySchema,
   type: WorkItemTypeSchema,
   completed: z.boolean(),
 });

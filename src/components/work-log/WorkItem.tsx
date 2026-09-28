@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Pencil, Trash2, CheckSquare, Square } from 'lucide-react';
-import { WorkItem as WorkItemType, WORK_ITEM_TYPES } from '@/types/workLog';
+import { WorkItem as WorkItemType, WORK_ITEM_TYPES, WORK_ITEM_CATEGORIES } from '@/types/workLog';
 import WorkItemForm from './WorkItemForm';
 import { z } from 'zod';
 import { WorkItemSchema } from '@/lib/validations';
@@ -21,6 +21,8 @@ export default function WorkItem({ item, onUpdate, onDelete }: WorkItemProps) {
 
   const typeLabel =
     WORK_ITEM_TYPES.find((t) => t.value === item.type)?.label ?? item.type;
+  const categoryLabel =
+    WORK_ITEM_CATEGORIES.find((c) => c.value === item.category)?.label ?? item.category;
 
   if (editing) {
     return (
@@ -83,7 +85,18 @@ export default function WorkItem({ item, onUpdate, onDelete }: WorkItemProps) {
         >
           {item.description}
         </p>
-        <span className="text-xs text-slate-400 dark:text-slate-500 capitalize">{typeLabel}</span>
+        <span className="mt-1 flex items-center gap-1.5">
+          <span
+            className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${
+              item.category === 'personal'
+                ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
+                : 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
+            }`}
+          >
+            {categoryLabel}
+          </span>
+          <span className="text-xs text-slate-400 dark:text-slate-500">{typeLabel}</span>
+        </span>
       </div>
 
       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
